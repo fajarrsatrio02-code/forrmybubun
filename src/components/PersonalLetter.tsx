@@ -1,24 +1,23 @@
 import React, { useState, useRef } from 'react';
 import { BirthdayData } from '../types';
 import { soundManager } from '../utils/audio';
-import bubunPortraitImg from '../assets/images/bubun_letter_portrait_1791124028283.jpg';
 
 interface PersonalLetterProps {
   data: BirthdayData;
   onOpenConfession: () => void;
 }
 
-// Photo sources in order of priority:
+// Photo sources in order of priority from public repository:
 // 1. /bubun.jpg (the direct new photo file in public/ updated in repo)
 // 2. /image.png (direct alternative in public/)
-// 3. /foto.jpg / /photo.jpg
-// 4. Bundled fallback
+// 3. /foto.jpg / /photo.jpg / /bubun.png
 const REPO_PHOTO_CANDIDATES = [
   '/bubun.jpg',
   '/image.png',
   '/foto.jpg',
   '/photo.jpg',
-  bubunPortraitImg,
+  '/bubun.png',
+  '/image.jpg',
 ];
 
 export const PersonalLetter: React.FC<PersonalLetterProps> = ({
@@ -44,9 +43,7 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
 
   const activePhotoSrc =
     customLocalPhoto ||
-    (REPO_PHOTO_CANDIDATES[candidateIndex] === bubunPortraitImg
-      ? bubunPortraitImg
-      : `${REPO_PHOTO_CANDIDATES[candidateIndex]}?v=${cacheBuster}`);
+    `${REPO_PHOTO_CANDIDATES[candidateIndex]}?v=${cacheBuster}`;
 
   const toggleEnvelope = () => {
     if (!isOpen) {

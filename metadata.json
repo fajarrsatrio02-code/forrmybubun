@@ -1,0 +1,6 @@
+{
+  "name": "Selamat Ulang Tahun & Surat Tulip Kuning",
+  "description": "Web ucapan selamat ulang tahun interaktif bertema bunga tulip kuning, dilengkapi surat pribadi, animasi kelopak bunga mekar, dan ajakan jadian romantis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

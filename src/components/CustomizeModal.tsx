@@ -36,6 +36,8 @@ export const CustomizeModal: React.FC<CustomizeModalProps> = ({
     const params = new URLSearchParams();
     params.set('to', formData.recipientName);
     params.set('from', formData.senderName);
+    if (formData.birthdayDate) params.set('date', formData.birthdayDate);
+    if (formData.specialNote) params.set('note', formData.specialNote);
     if (formData.age) params.set('age', formData.age.toString());
     if (formData.whatsappNumber) params.set('wa', formData.whatsappNumber);
 
@@ -94,6 +96,34 @@ export const CustomizeModal: React.FC<CustomizeModalProps> = ({
                 onChange={(e) => handleChange('senderName', e.target.value)}
                 placeholder="Misal: Fajar"
                 className="w-full px-3.5 py-2 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 text-stone-900"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium text-stone-700 mb-1">
+                Tanggal Ulang Tahun
+              </label>
+              <input
+                type="text"
+                value={formData.birthdayDate || '05 Oktober 2026'}
+                onChange={(e) => handleChange('birthdayDate', e.target.value)}
+                placeholder="Misal: 05 Oktober 2026"
+                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-400 text-stone-900"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium text-stone-700 mb-1">
+                Catatan Spesial
+              </label>
+              <input
+                type="text"
+                value={formData.specialNote || 'aku suka dia yang periang'}
+                onChange={(e) => handleChange('specialNote', e.target.value)}
+                placeholder="Misal: aku suka dia yang periang"
+                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-400 text-stone-900"
               />
             </div>
           </div>

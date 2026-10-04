@@ -3,12 +3,22 @@ import { soundManager } from '../utils/audio';
 
 interface KeepsakeProps {
   recipientName: string;
+  specialNote?: string;
 }
 
-export const TulipBouquetKeepsake: React.FC<KeepsakeProps> = ({ recipientName }) => {
+export const TulipBouquetKeepsake: React.FC<KeepsakeProps> = ({
+  recipientName,
+  specialNote = 'aku suka dia yang periang',
+}) => {
   const [activeTab, setActiveTab] = useState<number>(0);
 
   const reasons = [
+    {
+      title: 'Aku Suka Dia yang Periang',
+      description:
+        'Tawamu yang lepas, energimu yang selalu ceria, dan caramu membawa kehangatan di setiap suasana selalu berhasil membuatku jatuh hati. Sifat periangmu bagaikan mentari pagi yang selalu mewarnai hari.',
+      icon: '🐥',
+    },
     {
       title: 'Senyumanmu yang Selalu Menghangatkan',
       description:
@@ -21,12 +31,6 @@ export const TulipBouquetKeepsake: React.FC<KeepsakeProps> = ({ recipientName })
         'Caramu mendengarkan, caramu peduli pada hal-hal kecil, dan kebaikan tanpa pamrih yang selalu kamu bagikan adalah alasan mengapa kamu begitu istimewa di mataku.',
       icon: '💛',
     },
-    {
-      title: 'Kamu yang Selalu Apa Adanya',
-      description:
-        'Bersamamu, aku merasa bisa menjadi diriku yang seutuhnya. Tidak ada kepura-puraan, hanya kenyamanan dan rasa syukur setiap detik waktu kita lewati bersama.',
-      icon: '🌿',
-    },
   ];
 
   const handleTabClick = (idx: number) => {
@@ -37,7 +41,7 @@ export const TulipBouquetKeepsake: React.FC<KeepsakeProps> = ({ recipientName })
   return (
     <section id="alasan-kagum" className="py-12 px-4 sm:px-6 max-w-4xl mx-auto scroll-mt-6">
       <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-10 border border-amber-200/80 shadow-md">
-        <div className="text-center max-w-lg mx-auto mb-8">
+        <div className="text-center max-w-lg mx-auto mb-6">
           <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-800 mb-1">
             <span>CATATAN KECIL DARI HATI</span>
           </div>
@@ -45,8 +49,25 @@ export const TulipBouquetKeepsake: React.FC<KeepsakeProps> = ({ recipientName })
             Hal-hal yang Paling Kukagumi Darimu
           </h3>
           <p className="text-xs sm:text-sm text-stone-500 mt-1">
-            Ada ribuan alasan untuk bersyukur mengenalmu, dan tiga di antaranya adalah...
+            Ada ribuan alasan untuk bersyukur mengenalmu, dan catatan terbesarku adalah...
           </p>
+        </div>
+
+        {/* Highlighted Note Card */}
+        <div className="mb-6 p-4 sm:p-5 bg-linear-to-r from-amber-100/90 via-yellow-100/80 to-amber-200/70 rounded-2xl border-2 border-amber-300 shadow-xs flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-amber-300/80 flex items-center justify-center text-2xl shrink-0 shadow-xs">
+            📝
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 text-[11px] font-mono font-bold tracking-widest text-amber-800 uppercase">
+              <span>Catatan Spesial</span>
+              <span aria-hidden="true">·</span>
+              <span>05 Oktober 2026</span>
+            </div>
+            <p className="text-base sm:text-lg font-serif-title font-bold text-amber-950 mt-0.5">
+              "{specialNote}" 🐥💛
+            </p>
+          </div>
         </div>
 
         {/* Tab Buttons */}
@@ -63,7 +84,7 @@ export const TulipBouquetKeepsake: React.FC<KeepsakeProps> = ({ recipientName })
               }`}
             >
               <span>{r.icon}</span>
-              <span>Alasan 0{idx + 1}</span>
+              <span>{r.title}</span>
             </button>
           ))}
         </div>
@@ -85,9 +106,12 @@ export const TulipBouquetKeepsake: React.FC<KeepsakeProps> = ({ recipientName })
           </div>
         </div>
 
-        <div className="mt-6 text-center">
-          <p className="text-xs text-stone-400 italic">
-            "Semoga di usia yang baru ini, {recipientName} selalu dipeluk kebahagiaan yang melimpah."
+        <div className="mt-6 text-center space-y-1">
+          <p className="text-xs text-amber-900/80 font-medium font-serif-title italic">
+            "Catatan: {specialNote} — tawa riangmu adalah kebahagiaanku."
+          </p>
+          <p className="text-[11px] text-stone-400">
+            05 Oktober 2026 · Untuk {recipientName} tercinta 🐥🌷
           </p>
         </div>
       </div>

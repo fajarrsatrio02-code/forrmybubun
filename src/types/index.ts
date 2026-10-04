@@ -4,6 +4,7 @@ export interface BirthdayData {
   age?: number;
   birthdayDate?: string;
   whatsappNumber?: string; // e.g. 628123456789
+  specialNote?: string;
   letterGreeting: string;
   letterBody: string;
   letterClosing: string;

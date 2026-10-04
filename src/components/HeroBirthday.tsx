@@ -96,8 +96,8 @@ export const HeroBirthday: React.FC<HeroBirthdayProps> = ({
 
           {/* Floating celebratory text inside banner */}
           <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 text-white">
-            <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-semibold text-amber-300 mb-1 tracking-wide">
-              <span className="bg-amber-400/20 px-2.5 py-0.5 rounded-full border border-amber-400/40 text-amber-200">
+            <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-medium text-amber-300 mb-1 tracking-wide">
+              <span className="bg-amber-400/30 px-2 py-0.5 rounded-md border border-amber-300/40 text-amber-200 font-semibold">
                 05 OKTOBER 2026
               </span>
               <span aria-hidden="true">·</span>
@@ -200,8 +200,12 @@ export const HeroBirthday: React.FC<HeroBirthdayProps> = ({
 
           {/* Right: Sweet greeting description & CTA */}
           <div className="md:col-span-7 flex flex-col justify-center">
-            <div className="flex items-center gap-2 text-xs font-semibold text-amber-800 mb-1">
-              <span>05 OKTOBER 2026 · DOA & HARAPAN</span>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-amber-700 mb-1">
+              <span>DOA & HARAPAN</span>
+              <span aria-hidden="true">·</span>
+              <span className="font-semibold text-amber-900 bg-amber-200/80 px-2 py-0.5 rounded-md">
+                📅 {data.birthdayDate || '05 Oktober 2026'}
+              </span>
               {data.age && (
                 <>
                   <span aria-hidden="true">·</span>

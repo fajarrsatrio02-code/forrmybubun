@@ -14,11 +14,12 @@ const defaultBirthdayData: BirthdayData = {
   age: 22,
   birthdayDate: '05 Oktober 2026',
   whatsappNumber: '',
+  specialNote: 'aku suka dia yang periang',
   letterGreeting: 'Untuk My Yelloow duck Tersayang, 🐥💛',
-  letterBody: `Selamat ulang tahun yang paling indah untukmu, My Yelloow duck! 🐥💛\n\nDi hari bertambahnya usiamu ini, aku hanya ingin mengucapkan terima kasih karena telah hadir dan mewarnai hari-hariku dengan begitu banyak kehangatan dan senyum manis. Kehadiranmu bagaikan perpaduan bunga tulip kuning yang cerah dan seekor anak bebek kuning yang selalu bikin gemas dan bahagia—selalu membawa keceriaan, harapan, dan ketenangan di setiap detik.\n\nSemoga di usia yang baru ini, setiap langkah My Yelloow duck selalu dipenuhi berkah, kesehatan yang melimpah, dan segala impian indahmu satu per satu bersemi dengan sempurna. Jangan pernah ragu pada kemampuanmu, karena kamu luar biasa lebih dari yang kamu bayangkan.`,
+  letterBody: `Selamat ulang tahun yang paling indah untukmu, My Yelloow duck! 🐥💛 (05 Oktober 2026)\n\nDi hari bertambahnya usiamu ini, aku hanya ingin mengucapkan terima kasih karena telah hadir dan mewarnai hari-hariku dengan begitu banyak kehangatan dan senyum manis. Kehadiranmu bagaikan perpaduan bunga tulip kuning yang cerah dan seekor anak bebek kuning yang selalu bikin gemas dan bahagia—selalu membawa keceriaan, harapan, dan ketenangan di setiap detik.\n\nCatatan kecil dari hatiku: Aku suka dia yang periang. Senyum manismu dan tawamu yang selalu riang selalu menghangatkan hatiku.\n\nSemoga di usia yang baru ini, setiap langkah My Yelloow duck selalu dipenuhi berkah, kesehatan yang melimpah, dan segala impian indahmu satu per satu bersemi dengan sempurna. Jangan pernah ragu pada kemampuanmu, karena kamu luar biasa lebih dari yang kamu bayangkan.`,
   letterClosing: 'Dengan seluruh ketulusan hati dan rasa sayang,',
   confessionQuestion: 'Maukah kau menjadi my girlfriend?',
-  confessionMessage: `Untuk My Yelloow duck yang paling menggemaskan dan istimewa...\n\nSelama mengenalku, ada rasa yang perlahan bersemi dan tumbuh mekar di dalam hatiku. Seperti bunga tulip kuning yang selalu mencari hangatnya mentari pagi, aku pun selalu merasa paling bahagia dan tenang ketika ada kamu di sisiku.\n\nAku ingin menjadi orang yang merayakan setiap tawamu, mendengarkan ceritamu saat lelah, dan menggenggam tanganmu melangkah ke depan.\n\nMaukah kau menjadi my girlfriend? 🐥💛🌷`,
+  confessionMessage: `Untuk My Yelloow duck yang paling menggemaskan dan istimewa...\n\nSelama mengenalku, ada rasa yang perlahan bersemi dan tumbuh mekar di dalam hatiku. Seperti bunga tulip kuning yang selalu mencari hangatnya mentari pagi, aku pun selalu merasa paling bahagia dan tenang ketika ada kamu di sisiku.\n\nAku suka dia yang periang, dan aku ingin menjadi orang yang merayakan setiap tawamu, mendengarkan ceritamu saat lelah, dan menggenggam tanganmu melangkah ke depan.\n\nMaukah kau menjadi my girlfriend? 🐥💛🌷`,
 };
 
 export default function App() {
@@ -32,12 +33,21 @@ export default function App() {
       const from = params.get('from');
       const age = params.get('age');
       const wa = params.get('wa');
+      const date = params.get('date');
+      const note = params.get('note');
 
       const saved = localStorage.getItem('birthday_custom_data');
       let base = defaultBirthdayData;
       if (saved) {
         try {
-          base = { ...defaultBirthdayData, ...JSON.parse(saved) };
+          const parsed = JSON.parse(saved);
+          base = { ...defaultBirthdayData, ...parsed };
+          if (base.birthdayDate === 'Hari Ini' || !base.birthdayDate) {
+            base.birthdayDate = '05 Oktober 2026';
+          }
+          if (!base.specialNote) {
+            base.specialNote = 'aku suka dia yang periang';
+          }
         } catch {
           // fallback
         }
@@ -45,6 +55,8 @@ export default function App() {
 
       return {
         ...base,
+        birthdayDate: date || base.birthdayDate || '05 Oktober 2026',
+        specialNote: note || base.specialNote || 'aku suka dia yang periang',
         recipientName: to || base.recipientName,
         senderName: from || base.senderName,
         age: age ? parseInt(age) : base.age,
@@ -100,7 +112,7 @@ export default function App() {
           <TulipGarden />
 
           {/* 3. Reasons I Admire My Yelloow duck */}
-          <TulipBouquetKeepsake recipientName={data.recipientName} />
+          <TulipBouquetKeepsake recipientName={data.recipientName} specialNote={data.specialNote} />
 
           {/* 4. Vintage Personal Letter (Surat Pribadi with Secret Gift inside) */}
           <PersonalLetter

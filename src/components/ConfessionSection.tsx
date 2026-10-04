@@ -171,7 +171,7 @@ export const ConfessionSection: React.FC<ConfessionSectionProps> = ({ data }) =>
 
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-semibold mb-2">
               <span>🎉</span>
-              <span>RESMI JADIAN HARI INI</span>
+              <span>RESMI JADIAN: 05 OKTOBER 2026</span>
             </div>
 
             <h3 className="font-serif-title text-3xl sm:text-4xl font-bold text-stone-900 leading-tight">
@@ -188,8 +188,8 @@ export const ConfessionSection: React.FC<ConfessionSectionProps> = ({ data }) =>
                 <span className="text-xs font-mono uppercase tracking-widest text-amber-800 font-bold">
                   Sertifikat Janji Kasih
                 </span>
-                <span className="text-xs font-mono text-stone-500">
-                  {new Date().toLocaleDateString('id-ID', { dateStyle: 'full' })}
+                <span className="text-xs font-mono font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md">
+                  Senin, 05 Oktober 2026
                 </span>
               </div>
 
@@ -204,7 +204,7 @@ export const ConfessionSection: React.FC<ConfessionSectionProps> = ({ data }) =>
                 </p>
                 <div className="pt-2 border-t border-amber-100 mt-2">
                   <p className="text-xs text-stone-500 italic">
-                    "Saling mendengarkan saat lelah, saling merayakan saat bahagia, dan selalu menjadi rumah bagi satu sama lain."
+                    "Catatan hati: Aku suka dia yang periang — saling mendengarkan saat lelah, saling merayakan saat bahagia, dan selalu menjadi rumah bagi satu sama lain."
                   </p>
                 </div>
               </div>

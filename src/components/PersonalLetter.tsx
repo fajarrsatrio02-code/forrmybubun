@@ -1,24 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { BirthdayData } from '../types';
 import { soundManager } from '../utils/audio';
+import vintageTulipImg from '../assets/images/vintage_tulip_art_1791121166193.jpg';
 
 interface PersonalLetterProps {
   data: BirthdayData;
   onOpenConfession: () => void;
 }
-
-// Photo sources in order of priority from public repository:
-// 1. /bubun.jpg (the direct new photo file in public/ updated in repo)
-// 2. /image.png (direct alternative in public/)
-// 3. /foto.jpg / /photo.jpg / /bubun.png
-const REPO_PHOTO_CANDIDATES = [
-  '/bubun.jpg',
-  '/image.png',
-  '/foto.jpg',
-  '/photo.jpg',
-  '/bubun.png',
-  '/image.jpg',
-];
 
 export const PersonalLetter: React.FC<PersonalLetterProps> = ({
   data,
@@ -26,24 +14,6 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
-  const [candidateIndex, setCandidateIndex] = useState<number>(0);
-
-  // Cache buster timestamp to ensure Vercel / browsers fetch fresh file from repo
-  const [cacheBuster] = useState<string>(() => Date.now().toString());
-
-  // Prioritize localStorage if user picked one locally, otherwise load from repo with cache-buster
-  const [customLocalPhoto, setCustomLocalPhoto] = useState<string | null>(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('my_yelloow_duck_photo');
-    }
-    return null;
-  });
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const activePhotoSrc =
-    customLocalPhoto ||
-    `${REPO_PHOTO_CANDIDATES[candidateIndex]}?v=${cacheBuster}`;
 
   const toggleEnvelope = () => {
     if (!isOpen) {
@@ -59,45 +29,8 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Optional tap to choose photo directly if user wants
-  const handlePhotoClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64 = event.target?.result as string;
-        if (base64) {
-          setCustomLocalPhoto(base64);
-          localStorage.setItem('my_yelloow_duck_photo', base64);
-          soundManager.playBloomSound();
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleImageError = () => {
-    if (candidateIndex < REPO_PHOTO_CANDIDATES.length - 1) {
-      setCandidateIndex((prev) => prev + 1);
-    }
-  };
-
   return (
     <section id="surat-pribadi" className="py-12 px-4 sm:px-6 max-w-4xl mx-auto scroll-mt-6">
-      {/* Hidden file picker */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        className="hidden"
-        aria-hidden="true"
-      />
-
       {/* Section Title */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-800 mb-1">
@@ -107,40 +40,43 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
           Pesan Pribadi Buatmu
         </h2>
         <p className="mt-1 text-sm text-stone-600 max-w-md mx-auto">
-          Sepucuk surat yang kutulis khusus di hari bahagiamu, tersimpan rapi di dalam amplop tersegel.
+          Ada sepucuk surat tersimpan di dalam amplop segel lilin ini. Tekan segel lilin emas untuk membukanya.
         </p>
       </div>
 
-      {/* Interactive Envelope or Letter Paper */}
-      <div className="flex justify-center">
+      {/* Interactive Envelope Container */}
+      <div className="relative flex flex-col items-center">
         {!isOpen ? (
-          /* Sealed Envelope Presentation */
+          /* Sealed Envelope Graphic */
           <div
             onClick={toggleEnvelope}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && toggleEnvelope()}
-            className="w-full max-w-lg bg-linear-to-b from-amber-100 to-amber-200/90 rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-amber-300 cursor-pointer transform hover:-translate-y-1 transition-all duration-300 group text-center relative overflow-hidden"
+            className="w-full max-w-lg cursor-pointer transform hover:-translate-y-1 transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 rounded-3xl"
           >
-            {/* Stamp in upper corner */}
-            <div className="absolute top-4 right-4 border-2 border-dashed border-amber-400/80 rounded-lg p-2 bg-amber-50/70 rotate-3">
-              <span className="text-xl">🌷</span>
-              <p className="text-[9px] font-mono font-bold text-amber-900 mt-0.5">05 OKT 2026</p>
-            </div>
+            <div className="relative bg-linear-to-b from-amber-100 to-amber-200/90 rounded-3xl p-8 sm:p-12 shadow-xl border border-amber-300/70 text-center overflow-hidden">
+              {/* Envelope flap aesthetic geometry */}
+              <div className="absolute top-0 left-0 right-0 h-28 bg-linear-to-b from-amber-200 to-amber-100/40 clip-path-triangle opacity-60 pointer-events-none" />
 
-            {/* Vintage postmark aesthetic lines */}
-            <div className="flex flex-col items-center">
-              <div className="w-12 h-0.5 bg-amber-300 mb-1" />
-              <div className="w-16 h-0.5 bg-amber-300 mb-4" />
+              {/* Decorative vintage postage stamp */}
+              <div className="absolute top-5 right-6 w-16 h-18 border-2 border-dashed border-amber-400/80 bg-amber-50 p-1 flex flex-col items-center justify-center rotate-3 shadow-xs">
+                <span className="text-lg">🌷</span>
+                <span className="text-[9px] font-mono font-bold text-amber-800 tracking-tighter">05 OKT 2026</span>
+              </div>
 
-              <span className="font-handwriting text-2xl sm:text-3xl text-amber-950 font-bold">
-                Spesial untuk {data.recipientName}
-              </span>
-              <p className="text-xs text-amber-800 font-mono mt-1">
-                Dari: {data.senderName} 🐥
-              </p>
+              {/* Envelope Recipient Address */}
+              <div className="pt-8 pb-4">
+                <p className="text-xs uppercase font-mono tracking-widest text-amber-800/80">KIRIMAN SPESIAL KEPADA:</p>
+                <h3 className="font-serif-title text-2xl sm:text-3xl font-bold text-amber-950 mt-1">
+                  Untuk {data.recipientName} Tersayang
+                </h3>
+                <p className="text-xs text-stone-500 mt-1 italic">
+                  Dari {data.senderName} · Jangan dibuka orang lain!
+                </p>
+              </div>
 
-              {/* Wax Seal */}
+              {/* Wax Seal Stamp */}
               <div className="my-6 inline-flex flex-col items-center">
                 <div className="w-16 h-16 rounded-full bg-linear-to-tr from-amber-700 via-amber-600 to-yellow-500 shadow-lg border-2 border-amber-300 flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300 group-hover:shadow-amber-400/50">
                   <span className="text-2xl drop-shadow-sm">💛</span>
@@ -158,8 +94,8 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
             <div className="flex items-center justify-between border-b border-amber-200/80 pb-4 mb-6">
               <div className="flex items-center gap-2">
                 <span className="text-xl">💌</span>
-                <span className="text-xs font-mono tracking-wider text-amber-800 uppercase font-semibold">
-                  Surat Pribadi · 05 Oktober 2026
+                <span className="text-xs font-mono tracking-wider text-amber-800 uppercase">
+                  Surat Pribadi Ulang Tahun
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -180,41 +116,32 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
               </div>
             </div>
 
-            {/* Letter Content Layout with Clean Polaroid Photo */}
+            {/* Letter Content Layout with Vintage Tulip Art */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-              {/* Polaroid Photo of My Yelloow duck */}
-              <div className="md:col-span-5 flex flex-col items-center">
-                <div
-                  onClick={handlePhotoClick}
-                  title="Foto My Yelloow duck"
-                  className="relative bg-white p-2.5 pb-4 rounded-2xl shadow-xl border-2 border-amber-200/90 w-48 md:w-full rotate-[-1.5deg] hover:rotate-0 transition-transform duration-300 cursor-pointer group"
-                >
-                  {/* Photo Container */}
-                  <div className="relative rounded-xl overflow-hidden aspect-3/4 bg-amber-50 flex items-center justify-center">
-                    <img
-                      key={activePhotoSrc}
-                      src={activePhotoSrc}
-                      alt="Foto My Yelloow duck"
-                      referrerPolicy="no-referrer"
-                      onError={handleImageError}
-                      className="w-full h-full object-cover object-center group-hover:opacity-95 transition-opacity"
-                    />
-                  </div>
-
-                  {/* Caption */}
-                  <div className="mt-2.5 text-center">
-                    <p className="font-handwriting text-lg font-bold text-amber-950">
-                      My Yelloow duck 🐥💛
-                    </p>
-                    <p className="text-[11px] text-amber-800 font-mono mt-0.5 font-semibold">
-                      05 Oktober 2026
+              {/* Botanical Portrait Art */}
+              <div className="md:col-span-4 flex flex-col items-center">
+                <div className="relative rounded-2xl overflow-hidden border-2 border-amber-200 shadow-md w-40 md:w-full aspect-3/4">
+                  <img
+                    src={vintageTulipImg}
+                    alt="Lukisan Botani Tulip Kuning"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-0 inset-x-0 bg-stone-950/60 p-1.5 text-center">
+                    <p className="text-[10px] text-amber-200 font-serif-title italic">
+                      "Cinta sehangat mentari"
                     </p>
                   </div>
+                </div>
+                <div className="mt-2 text-center">
+                  <span className="text-xs text-amber-900 font-semibold font-mono bg-amber-100/90 px-2.5 py-1 rounded-md border border-amber-200">
+                    📅 {data.birthdayDate || '05 Oktober 2026'}
+                  </span>
                 </div>
               </div>
 
               {/* Letter Prose Text */}
-              <div className="md:col-span-7 flex flex-col text-stone-800">
+              <div className="md:col-span-8 flex flex-col text-stone-800">
                 {/* Greeting */}
                 <h3 className="font-handwriting text-2xl sm:text-3xl text-amber-950 font-bold mb-3">
                   {data.letterGreeting}
@@ -223,13 +150,24 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
                 {/* Body Paragraphs */}
                 <div className="text-sm sm:text-base leading-relaxed space-y-3 font-serif-title text-stone-800">
                   {data.letterBody.split('\n\n').map((paragraph, idx) => (
-                    <p key={idx}>{paragraph}</p>
+                    <p key={idx} className="whitespace-pre-line leading-relaxed">
+                      {paragraph}
+                    </p>
                   ))}
                 </div>
 
-                {/* Closing & Sender Signature */}
-                <div className="mt-6 pt-4 border-t border-amber-200/60 flex flex-col items-end text-right">
-                  <p className="text-xs sm:text-sm text-stone-600 font-serif-title italic">
+                {/* Sticky note card for "aku suka dia yang periang" */}
+                <div className="mt-4 p-3 bg-amber-100/90 rounded-xl border border-amber-300/80 flex items-center gap-2.5 shadow-2xs">
+                  <span className="text-lg">📌</span>
+                  <div className="text-xs">
+                    <span className="font-bold text-amber-950 uppercase tracking-wide">Catatan Hati: </span>
+                    <span className="italic font-serif-title text-amber-900 font-semibold">"{data.specialNote || 'aku suka dia yang periang'}" 🐥💛</span>
+                  </div>
+                </div>
+
+                {/* Closing & Signature */}
+                <div className="mt-6 pt-4 border-t border-amber-200/70">
+                  <p className="text-xs text-stone-500 italic font-serif-title">
                     {data.letterClosing}
                   </p>
                   <p className="font-handwriting text-2xl sm:text-3xl text-amber-900 font-bold mt-1">
@@ -239,28 +177,25 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
               </div>
             </div>
 
-            {/* Secret Gift Inside: Proposal Prompt */}
-            <div className="mt-8 pt-6 border-t-2 border-dashed border-amber-300/80 bg-amber-100/60 p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-amber-400/80 flex items-center justify-center text-2xl shadow-xs">
-                  🎁
-                </div>
+            {/* Secret Gift Box / Misteri Tersembunyi */}
+            <div className="mt-8 pt-6 border-t border-amber-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 bg-linear-to-r from-amber-100/70 to-yellow-100/70 -mx-6 -mb-6 p-6 rounded-b-3xl">
+              <div className="flex items-center gap-3 text-center sm:text-left">
+                <span className="text-3xl animate-bounce">🎁</span>
                 <div>
-                  <h4 className="font-serif-title font-bold text-sm text-stone-900">
-                    Satu Kejutan Rahasia Tersisa...
-                  </h4>
-                  <p className="text-xs text-stone-600">
-                    Ada satu pertanyaan penting yang ingin kutanyakan langsung padamu.
+                  <p className="text-xs font-bold text-amber-950 uppercase tracking-wider">
+                    Psst... Ada Kejutan Tersembunyi! 🔐
+                  </p>
+                  <p className="text-xs text-stone-600 mt-0.5">
+                    Terselip sebuah kado rahasia kecil khusus untuk <strong>{data.recipientName}</strong> di balik amplop ini...
                   </p>
                 </div>
               </div>
-
               <button
                 type="button"
                 onClick={onOpenConfession}
-                className="px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-linear-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer whitespace-nowrap active:scale-95"
+                className="px-6 py-3 text-xs sm:text-sm font-bold text-white bg-linear-to-r from-amber-800 to-amber-900 hover:from-amber-900 hover:to-stone-900 rounded-2xl transition-all shadow-md hover:shadow-xl hover:scale-103 cursor-pointer whitespace-nowrap flex items-center gap-2"
               >
-                <span>Buka Kejutan Rahasia</span>
+                <span>Buka Kado Rahasia</span>
                 <span>✨</span>
               </button>
             </div>

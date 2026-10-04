@@ -164,7 +164,7 @@ export const ProposalPage: React.FC<ProposalPageProps> = ({
             {/* Sub-kicker */}
             <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-200 text-amber-950 text-xs font-bold uppercase tracking-wider">
               <span>🎁</span>
-              <span>KADO RAHASIA TERBUKA · DARI LUBUK HATI TERDALAM</span>
+              <span>KADO RAHASIA TERBUKA · 05 OKTOBER 2026</span>
               <span>✨</span>
             </div>
 
@@ -175,8 +175,8 @@ export const ProposalPage: React.FC<ProposalPageProps> = ({
 
             {/* Heartfelt Letter Body */}
             <div className="my-6 p-6 sm:p-8 bg-white/90 backdrop-blur-xs rounded-2xl border border-amber-200 shadow-sm text-stone-800 font-serif-title text-base sm:text-lg leading-relaxed text-center italic">
-              "Untuk <strong>{data.recipientName}</strong> yang paling berharga... Terima kasih sudah hadir dan membawa begitu banyak tawa dan kehangatan dalam hidupku. Senyummu selalu menjadi alasan terbaik untuk memulai hari, persis seperti indahnya bunga tulip kuning di pagi hari.<br /><br />
-              Hari ini, di momen spesial ulang tahunmu, aku ingin melangkah lebih jauh bersamamu. Aku ingin ada di setiap harimu, merawat senyummu, dan menjagamu selalu.<br /><br />
+              "Untuk <strong>{data.recipientName}</strong> yang paling berharga... Terima kasih sudah hadir dan membawa begitu banyak tawa dan kehangatan dalam hidupku. Aku suka dia yang periang, dan senyummu selalu menjadi alasan terbaik untuk memulai hari, persis seperti indahnya bunga tulip kuning di pagi hari.<br /><br />
+              Di tanggal 05 Oktober 2026 ini, di momen spesial ulang tahunmu, aku ingin melangkah lebih jauh bersamamu. Aku ingin ada di setiap harimu, merawat senyummu, dan menjagamu selalu.<br /><br />
               Jadi... maukah kamu menjadi my girlfriend?"
             </div>
 
@@ -242,7 +242,7 @@ export const ProposalPage: React.FC<ProposalPageProps> = ({
 
             <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs sm:text-sm font-bold mb-3">
               <span>🎉</span>
-              <span>RESMI JADIAN: SHE SAID YES!</span>
+              <span>RESMI JADIAN: 05 OKTOBER 2026 · SHE SAID YES!</span>
             </div>
 
             <h2 className="font-serif-title text-3xl sm:text-5xl font-extrabold text-stone-900 leading-tight">
@@ -250,7 +250,7 @@ export const ProposalPage: React.FC<ProposalPageProps> = ({
             </h2>
 
             <p className="mt-3 text-stone-700 font-serif-title text-base sm:text-lg leading-relaxed">
-              Terima kasih banyak sudah mau menjadi pacarku, <strong>{data.recipientName}</strong>! Hari ini adalah hari paling membahagiakan, dan aku berjanji akan selalu membuatmu tersenyum sehangat bunga tulip kuning.
+              Terima kasih banyak sudah mau menjadi pacarku, <strong>{data.recipientName}</strong>! Tanggal 05 Oktober 2026 ini adalah hari paling membahagiakan, dan aku berjanji akan selalu membuatmu tersenyum sehangat bunga tulip kuning.
             </p>
 
             {/* Official Digital Certificate */}
@@ -262,7 +262,7 @@ export const ProposalPage: React.FC<ProposalPageProps> = ({
                     Sertifikat Resmi Pasangan Bahagia
                   </span>
                 </div>
-                <span className="text-xs font-mono text-amber-900 font-bold bg-amber-100 px-2.5 py-1 rounded-md border border-amber-200">
+                <span className="text-xs font-mono font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md">
                   Senin, 05 Oktober 2026
                 </span>
               </div>
@@ -275,6 +275,7 @@ export const ProposalPage: React.FC<ProposalPageProps> = ({
                 </div>
 
                 <div className="pt-2 text-stone-700 space-y-1.5 text-xs sm:text-sm leading-relaxed">
+                  <p>✔ Janji selalu mencintai dia yang periang dan merawat senyum manisnya setiap hari.</p>
                   <p>✔ Janji selalu ada dan saling mendengarkan dalam suka maupun duka.</p>
                   <p>✔ Janji merayakan setiap keberhasilan kecil bersama-sama.</p>
                   <p>✔ Janji menjaga senyum manis My Yelloow duck agar selalu mekar seindah tulip kuning.</p>

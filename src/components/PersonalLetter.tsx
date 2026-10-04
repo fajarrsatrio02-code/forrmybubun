@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { BirthdayData } from '../types';
 import { soundManager } from '../utils/audio';
 import bubunPortraitImg from '../assets/images/bubun_letter_portrait_1791124028283.jpg';
@@ -15,13 +15,15 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
 
-  // Photo source: preserves any custom photo if already in storage, otherwise uses the portrait
-  const [photoSrc] = useState<string>(() => {
+  // Photo source: preserves user's exact uploaded photo if saved in localStorage
+  const [photoSrc, setPhotoSrc] = useState<string>(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('my_yelloow_duck_photo') || bubunPortraitImg;
     }
     return bubunPortraitImg;
   });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const toggleEnvelope = () => {
     if (!isOpen) {
@@ -37,8 +39,39 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Seamless click-to-pick original photo from device
+  const handlePhotoClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64 = event.target?.result as string;
+        if (base64) {
+          setPhotoSrc(base64);
+          localStorage.setItem('my_yelloow_duck_photo', base64);
+          soundManager.playBloomSound();
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <section id="surat-pribadi" className="py-12 px-4 sm:px-6 max-w-4xl mx-auto scroll-mt-6">
+      {/* Invisible file input so user can tap the photo to choose their exact authentic photo */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="hidden"
+        aria-hidden="true"
+      />
+
       {/* Section Title */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-800 mb-1">
@@ -125,7 +158,11 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
               {/* Polaroid Photo of My Yelloow duck */}
               <div className="md:col-span-5 flex flex-col items-center">
-                <div className="relative bg-white p-2.5 pb-4 rounded-2xl shadow-xl border-2 border-amber-200/90 w-48 md:w-full rotate-[-1.5deg] hover:rotate-0 transition-transform duration-300">
+                <div
+                  onClick={handlePhotoClick}
+                  title="Klik untuk memilih foto asli dari perangkatmu"
+                  className="relative bg-white p-2.5 pb-4 rounded-2xl shadow-xl border-2 border-amber-200/90 w-48 md:w-full rotate-[-1.5deg] hover:rotate-0 transition-transform duration-300 cursor-pointer group"
+                >
                   {/* Photo Container */}
                   <div className="relative rounded-xl overflow-hidden aspect-3/4 bg-amber-50 flex items-center justify-center">
                     <img
@@ -135,7 +172,7 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = '/image.png';
                       }}
-                      className="w-full h-full object-cover object-center"
+                      className="w-full h-full object-cover object-center group-hover:opacity-95 transition-opacity"
                     />
                   </div>
 

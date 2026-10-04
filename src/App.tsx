@@ -12,7 +12,7 @@ const defaultBirthdayData: BirthdayData = {
   recipientName: 'My Yelloow duck',
   senderName: 'Fajar',
   age: 22,
-  birthdayDate: 'Hari Ini',
+  birthdayDate: '05 Oktober 2026',
   whatsappNumber: '',
   letterGreeting: 'Untuk My Yelloow duck Tersayang, 🐥💛',
   letterBody: `Selamat ulang tahun yang paling indah untukmu, My Yelloow duck! 🐥💛\n\nDi hari bertambahnya usiamu ini, aku hanya ingin mengucapkan terima kasih karena telah hadir dan mewarnai hari-hariku dengan begitu banyak kehangatan dan senyum manis. Kehadiranmu bagaikan perpaduan bunga tulip kuning yang cerah dan seekor anak bebek kuning yang selalu bikin gemas dan bahagia—selalu membawa keceriaan, harapan, dan ketenangan di setiap detik.\n\nSemoga di usia yang baru ini, setiap langkah My Yelloow duck selalu dipenuhi berkah, kesehatan yang melimpah, dan segala impian indahmu satu per satu bersemi dengan sempurna. Jangan pernah ragu pada kemampuanmu, karena kamu luar biasa lebih dari yang kamu bayangkan.`,

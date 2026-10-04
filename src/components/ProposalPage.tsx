@@ -262,8 +262,8 @@ export const ProposalPage: React.FC<ProposalPageProps> = ({
                     Sertifikat Resmi Pasangan Bahagia
                   </span>
                 </div>
-                <span className="text-xs font-mono text-stone-500">
-                  {new Date().toLocaleDateString('id-ID', { dateStyle: 'full' })}
+                <span className="text-xs font-mono text-amber-900 font-bold bg-amber-100 px-2.5 py-1 rounded-md border border-amber-200">
+                  Senin, 05 Oktober 2026
                 </span>
               </div>
 

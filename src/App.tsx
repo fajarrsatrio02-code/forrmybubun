@@ -7,7 +7,6 @@ import { TulipGarden } from './components/TulipGarden';
 import { TulipBouquetKeepsake } from './components/TulipBouquetKeepsake';
 import { PersonalLetter } from './components/PersonalLetter';
 import { ProposalPage } from './components/ProposalPage';
-import { CustomizeModal } from './components/CustomizeModal';
 
 const defaultBirthdayData: BirthdayData = {
   recipientName: 'My Yelloow duck',
@@ -25,8 +24,8 @@ const defaultBirthdayData: BirthdayData = {
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'birthday' | 'proposal'>('birthday');
 
-  const [data, setData] = useState<BirthdayData>(() => {
-    // Read URL search params first
+  const [data] = useState<BirthdayData>(() => {
+    // Read URL search params if provided
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const to = params.get('to');
@@ -55,18 +54,12 @@ export default function App() {
     return defaultBirthdayData;
   });
 
-  const [isCustomizeOpen, setIsCustomizeOpen] = useState<boolean>(false);
   const [isBgmPlaying, setIsBgmPlaying] = useState<boolean>(false);
 
   // Sync background audio state
   const handleToggleBgm = () => {
     const active = soundManager.toggleBGM();
     setIsBgmPlaying(active);
-  };
-
-  const handleSaveData = (newData: BirthdayData) => {
-    setData(newData);
-    localStorage.setItem('birthday_custom_data', JSON.stringify(newData));
   };
 
   const goToProposalPage = () => {
@@ -99,12 +92,11 @@ export default function App() {
             data={data}
             onOpenLetter={() => scrollToSection('surat-pribadi')}
             onOpenConfession={goToProposalPage}
-            onOpenCustomize={() => setIsCustomizeOpen(true)}
             isBgmPlaying={isBgmPlaying}
             onToggleBgm={handleToggleBgm}
           />
 
-          {/* 2. Interactive Yellow Tulip Garden */}
+          {/* 2. Interactive Yellow Tulip Garden & Cute Ducks */}
           <TulipGarden />
 
           {/* 3. Reasons I Admire My Yelloow duck */}
@@ -126,14 +118,6 @@ export default function App() {
               <span>🌷 Bunga Tulip Kuning</span>
               <span aria-hidden="true">·</span>
               <span>🐥 My Yelloow duck</span>
-              <span aria-hidden="true">·</span>
-              <button
-                type="button"
-                onClick={() => setIsCustomizeOpen(true)}
-                className="text-amber-800 hover:underline cursor-pointer"
-              >
-                Kustomisasi Nama
-              </button>
             </div>
           </footer>
         </main>
@@ -148,14 +132,6 @@ export default function App() {
           />
         </main>
       )}
-
-      {/* Customize Modal */}
-      <CustomizeModal
-        isOpen={isCustomizeOpen}
-        onClose={() => setIsCustomizeOpen(false)}
-        data={data}
-        onSave={handleSaveData}
-      />
     </div>
   );
 }

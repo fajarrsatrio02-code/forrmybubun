@@ -8,7 +8,7 @@ interface HeroBirthdayProps {
   data: BirthdayData;
   onOpenLetter: () => void;
   onOpenConfession: () => void;
-  onOpenCustomize: () => void;
+  onOpenCustomize?: () => void;
   isBgmPlaying: boolean;
   onToggleBgm: () => void;
 }
@@ -17,7 +17,6 @@ export const HeroBirthday: React.FC<HeroBirthdayProps> = ({
   data,
   onOpenLetter,
   onOpenConfession,
-  onOpenCustomize,
   isBgmPlaying,
   onToggleBgm,
 }) => {
@@ -71,23 +70,14 @@ export const HeroBirthday: React.FC<HeroBirthdayProps> = ({
             type="button"
             onClick={onToggleBgm}
             title={isBgmPlaying ? 'Matikan Melodi' : 'Putar Melodi Romantis'}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-xs ${
               isBgmPlaying
                 ? 'bg-amber-500 text-white shadow-xs'
-                : 'bg-white/80 text-stone-700 hover:bg-amber-50 border border-amber-200'
+                : 'bg-white/90 text-stone-700 hover:bg-amber-50 border border-amber-200'
             }`}
           >
             <span>{isBgmPlaying ? '🎵' : '🔇'}</span>
-            <span className="hidden sm:inline">{isBgmPlaying ? 'Melodi Aktif' : 'Putar Melodi'}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={onOpenCustomize}
-            className="px-3 py-1.5 text-xs font-medium bg-amber-900 text-amber-50 rounded-lg hover:bg-amber-800 transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap"
-          >
-            <span>✏️</span>
-            <span>Ubah Nama</span>
+            <span>{isBgmPlaying ? 'Melodi Aktif' : 'Putar Melodi'}</span>
           </button>
         </div>
       </div>

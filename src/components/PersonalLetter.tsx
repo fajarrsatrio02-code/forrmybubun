@@ -8,22 +8,45 @@ interface PersonalLetterProps {
   onOpenConfession: () => void;
 }
 
+// Photo sources in order of priority:
+// 1. /bubun.jpg (the direct new photo file in public/ updated in repo)
+// 2. /image.png (direct alternative in public/)
+// 3. /foto.jpg / /photo.jpg
+// 4. Bundled fallback
+const REPO_PHOTO_CANDIDATES = [
+  '/bubun.jpg',
+  '/image.png',
+  '/foto.jpg',
+  '/photo.jpg',
+  bubunPortraitImg,
+];
+
 export const PersonalLetter: React.FC<PersonalLetterProps> = ({
   data,
   onOpenConfession,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
+  const [candidateIndex, setCandidateIndex] = useState<number>(0);
 
-  // Photo source: preserves user's exact uploaded photo if saved in localStorage
-  const [photoSrc, setPhotoSrc] = useState<string>(() => {
+  // Cache buster timestamp to ensure Vercel / browsers fetch fresh file from repo
+  const [cacheBuster] = useState<string>(() => Date.now().toString());
+
+  // Prioritize localStorage if user picked one locally, otherwise load from repo with cache-buster
+  const [customLocalPhoto, setCustomLocalPhoto] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('my_yelloow_duck_photo') || bubunPortraitImg;
+      return localStorage.getItem('my_yelloow_duck_photo');
     }
-    return bubunPortraitImg;
+    return null;
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const activePhotoSrc =
+    customLocalPhoto ||
+    (REPO_PHOTO_CANDIDATES[candidateIndex] === bubunPortraitImg
+      ? bubunPortraitImg
+      : `${REPO_PHOTO_CANDIDATES[candidateIndex]}?v=${cacheBuster}`);
 
   const toggleEnvelope = () => {
     if (!isOpen) {
@@ -39,7 +62,7 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Seamless click-to-pick original photo from device
+  // Optional tap to choose photo directly if user wants
   const handlePhotoClick = () => {
     fileInputRef.current?.click();
   };
@@ -51,7 +74,7 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
       reader.onload = (event) => {
         const base64 = event.target?.result as string;
         if (base64) {
-          setPhotoSrc(base64);
+          setCustomLocalPhoto(base64);
           localStorage.setItem('my_yelloow_duck_photo', base64);
           soundManager.playBloomSound();
         }
@@ -60,9 +83,15 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
     }
   };
 
+  const handleImageError = () => {
+    if (candidateIndex < REPO_PHOTO_CANDIDATES.length - 1) {
+      setCandidateIndex((prev) => prev + 1);
+    }
+  };
+
   return (
     <section id="surat-pribadi" className="py-12 px-4 sm:px-6 max-w-4xl mx-auto scroll-mt-6">
-      {/* Invisible file input so user can tap the photo to choose their exact authentic photo */}
+      {/* Hidden file picker */}
       <input
         ref={fileInputRef}
         type="file"
@@ -160,18 +189,17 @@ export const PersonalLetter: React.FC<PersonalLetterProps> = ({
               <div className="md:col-span-5 flex flex-col items-center">
                 <div
                   onClick={handlePhotoClick}
-                  title="Klik untuk memilih foto asli dari perangkatmu"
+                  title="Foto My Yelloow duck"
                   className="relative bg-white p-2.5 pb-4 rounded-2xl shadow-xl border-2 border-amber-200/90 w-48 md:w-full rotate-[-1.5deg] hover:rotate-0 transition-transform duration-300 cursor-pointer group"
                 >
                   {/* Photo Container */}
                   <div className="relative rounded-xl overflow-hidden aspect-3/4 bg-amber-50 flex items-center justify-center">
                     <img
-                      src={photoSrc}
+                      key={activePhotoSrc}
+                      src={activePhotoSrc}
                       alt="Foto My Yelloow duck"
                       referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = '/image.png';
-                      }}
+                      onError={handleImageError}
                       className="w-full h-full object-cover object-center group-hover:opacity-95 transition-opacity"
                     />
                   </div>

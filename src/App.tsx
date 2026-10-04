@@ -11,15 +11,15 @@ import { ProposalPage } from './components/ProposalPage';
 const defaultBirthdayData: BirthdayData = {
   recipientName: 'My Yelloow duck',
   senderName: 'Fajar',
-  age: 22,
+  age: 20,
   birthdayDate: '05 Oktober 2026',
   whatsappNumber: '',
   specialNote: 'aku suka dia yang periang',
   letterGreeting: 'Untuk My Yelloow duck Tersayang, 🐥💛',
-  letterBody: `Selamat ulang tahun yang paling indah untukmu, My Yelloow duck! 🐥💛 (05 Oktober 2026)\n\nDi hari bertambahnya usiamu ini, aku hanya ingin mengucapkan terima kasih karena telah hadir dan mewarnai hari-hariku dengan begitu banyak kehangatan dan senyum manis. Kehadiranmu bagaikan perpaduan bunga tulip kuning yang cerah dan seekor anak bebek kuning yang selalu bikin gemas dan bahagia—selalu membawa keceriaan, harapan, dan ketenangan di setiap detik.\n\nCatatan kecil dari hatiku: Aku suka dia yang periang. Senyum manismu dan tawamu yang selalu riang selalu menghangatkan hatiku.\n\nSemoga di usia yang baru ini, setiap langkah My Yelloow duck selalu dipenuhi berkah, kesehatan yang melimpah, dan segala impian indahmu satu per satu bersemi dengan sempurna. Jangan pernah ragu pada kemampuanmu, karena kamu luar biasa lebih dari yang kamu bayangkan.`,
+  letterBody: `Selamat ulang tahun yang ke-20 untukmu, My Yelloow duck! 🐥💛 (05 Oktober 2026)\n\nDi hari bertambahnya usiamu yang ke-20 ini, aku hanya ingin mengucapkan terima kasih karena telah hadir dan mewarnai hari-hariku dengan begitu banyak kehangatan dan senyum manis. Kehadiranmu bagaikan perpaduan bunga tulip kuning yang cerah dan seekor anak bebek kuning yang selalu bikin gemas dan bahagia—selalu membawa keceriaan, harapan, dan ketenangan di setiap detik.\n\nCatatan kecil dari hatiku: Aku suka dia yang periang. Senyum manismu dan tawamu yang selalu riang selalu menghangatkan hatiku.\n\nSemoga di usia 20 tahun ini, setiap langkah My Yelloow duck selalu dipenuhi berkah, kesehatan yang melimpah, dan segala impian indahmu satu per satu bersemi dengan sempurna. Jangan pernah ragu pada kemampuanmu, karena kamu luar biasa lebih dari yang kamu bayangkan.`,
   letterClosing: 'Dengan seluruh ketulusan hati dan rasa sayang,',
   confessionQuestion: 'Maukah kau menjadi my girlfriend?',
-  confessionMessage: `Untuk My Yelloow duck yang paling menggemaskan dan istimewa...\n\nSelama mengenalku, ada rasa yang perlahan bersemi dan tumbuh mekar di dalam hatiku. Seperti bunga tulip kuning yang selalu mencari hangatnya mentari pagi, aku pun selalu merasa paling bahagia dan tenang ketika ada kamu di sisiku.\n\nAku suka dia yang periang, dan aku ingin menjadi orang yang merayakan setiap tawamu, mendengarkan ceritamu saat lelah, dan menggenggam tanganmu melangkah ke depan.\n\nMaukah kau menjadi my girlfriend? 🐥💛🌷`,
+  confessionMessage: `Untuk My Yelloow duck yang paling menggemaskan dan istimewa...\n\nSelama mengenalku, ada rasa yang perlahan bersemi dan tumbuh mekar di dalam hatiku. Seperti bunga tulip kuning yang selalu mencari hangatnya mentari pagi, aku pun selalu merasa paling bahagia dan tenang ketika ada kamu di sisiku.\n\nAku suka dia yang periang, dan di momen ulang tahunmu yang ke-20 ini, aku ingin menjadi orang yang merayakan setiap tawamu, mendengarkan ceritamu saat lelah, dan menggenggam tanganmu melangkah ke depan.\n\nMaukah kau menjadi my girlfriend? 🐥💛🌷`,
 };
 
 export default function App() {
@@ -48,6 +48,9 @@ export default function App() {
           if (!base.specialNote) {
             base.specialNote = 'aku suka dia yang periang';
           }
+          if (base.age === 22 || !base.age) {
+            base.age = 20;
+          }
         } catch {
           // fallback
         }
@@ -55,11 +58,11 @@ export default function App() {
 
       return {
         ...base,
+        age: age ? parseInt(age) : 20,
         birthdayDate: date || base.birthdayDate || '05 Oktober 2026',
         specialNote: note || base.specialNote || 'aku suka dia yang periang',
         recipientName: to || base.recipientName,
         senderName: from || base.senderName,
-        age: age ? parseInt(age) : base.age,
         whatsappNumber: wa || base.whatsappNumber,
       };
     }

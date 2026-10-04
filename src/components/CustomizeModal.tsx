@@ -139,7 +139,7 @@ export const CustomizeModal: React.FC<CustomizeModalProps> = ({
                 max="120"
                 value={formData.age || ''}
                 onChange={(e) => handleChange('age', parseInt(e.target.value) || 0)}
-                placeholder="Misal: 22"
+                placeholder="Misal: 20"
                 className="w-full px-3.5 py-2 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-400 text-stone-900"
               />
             </div>

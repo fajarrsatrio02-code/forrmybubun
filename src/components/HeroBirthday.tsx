@@ -106,7 +106,7 @@ export const HeroBirthday: React.FC<HeroBirthdayProps> = ({
               <span>UNTUK SESEORANG YANG PALING BERHARGA</span>
             </div>
             <h1 className="font-serif-title text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight drop-shadow-md">
-              Selamat Ulang Tahun, <br className="hidden sm:inline" />
+              Selamat Ulang Tahun ke-{data.age || 20}, <br className="hidden sm:inline" />
               <span className="text-amber-300 italic font-normal underline decoration-amber-400/60 decoration-wavy decoration-2">
                 {data.recipientName}
               </span>! 💛
@@ -132,6 +132,9 @@ export const HeroBirthday: React.FC<HeroBirthdayProps> = ({
 
                 {/* Cake Bottom Layer */}
                 <path d="M35 85 C35 85, 35 110, 80 110 C125 110, 125 85, 125 85 L125 70 C125 70, 125 90, 80 90 C35 90, 35 70, 35 70 Z" fill="#fde68a" />
+                {/* Number 20 celebratory badge on cake */}
+                <rect x="71" y="85" width="18" height="15" rx="3" fill="#ffffff" opacity="0.8" />
+                <text x="80" y="97" textAnchor="middle" fill="#b45309" fontSize="11" fontWeight="bold" fontFamily="sans-serif">20</text>
                 <ellipse cx="80" cy="70" rx="45" ry="12" fill="#fed7aa" />
 
                 {/* Cake Cream & Frosting */}
